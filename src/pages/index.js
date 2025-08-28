@@ -42,7 +42,11 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={configs.app_name} keywords={configs.app_keywords} />
+      <SEO 
+        title={`${configs.app_name} - Migliori Prezzi Benzina e Diesel | App Gratuita`}
+        description={configs.app_description}
+        keywords={configs.app_keywords} 
+      />
 
       <div
         className="imageWrapper"
@@ -114,7 +118,7 @@ const IndexPage = ({ data }) => {
                 </svg>
                 <GatsbyImage
                   image={getImage(data.appIconLarge.childImageSharp.gatsbyImageData)}
-                  alt="App Icon Large"
+                  alt="GasLow - App prezzi benzina e diesel"
                   className="appIconLarge"
                 />
               </div>
@@ -130,7 +134,7 @@ const IndexPage = ({ data }) => {
                   <a className="playStoreLink" href={configs.playstore_link}>
                     <GatsbyImage
                       image={getImage(data.playStore.childImageSharp.gatsbyImageData)}
-                      alt="Download from Google Play"
+                      alt="Scarica GasLow da Google Play Store - App prezzi benzina e diesel"
                       className="playStore"
                     />
                   </a>
@@ -139,7 +143,7 @@ const IndexPage = ({ data }) => {
                   <a className="appStoreLink" href={configs.appstore_link}>
                     <GatsbyImage
                       image={getImage(data.appStore.childImageSharp.gatsbyImageData)}
-                      alt="Download from App Store"
+                      alt="Scarica GasLow da App Store - App prezzi benzina e diesel"
                       className="appStore"
                     />
                   </a>

@@ -9,8 +9,8 @@ module.exports = {
   path_prefix           : "/",                                                    // Prefixes all links. For cases when deployed to example.github.io/automatic-gatsbyjs-app-landing-page/.
   app_name              : "GasLow",
   app_price             : "Gratis",
-  app_description       : "La benzina al miglior prezzo.",
-  app_keywords          : ["carburanti", "sconti", "benzina", "gasolio"],
+  app_description       : "La benzina al miglior prezzo",
+  app_keywords          : ["migliori distributori diesel", "prezzi benzina ministero", "trova prezzi benzina", "prezzi benzina milano", "app prezzi benzina", "distributore benzina prezzi", "prezzi distributori benzina", "carburanti", "sconti", "benzina", "gasolio", "stazioni servizio", "prezzi carburante", "distributori economici", "benzina economica", "diesel economico", "ministero sviluppo economico", "open data carburanti", "prezzi aggiornati benzina"],
 
   // Personal Info
   your_name              : "Mattia Natali",

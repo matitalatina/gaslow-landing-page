@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://gaslow.mattianatali.it/sitemap-index.xml
+
+# Allow all crawlers to access common resources
+Allow: /icons/
+Allow: /static/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+
+# Disallow crawling of specific Gatsby files
+Disallow: /*/_gatsby/
+Disallow: /*/page-data/
+Disallow: /*/app-data.json
+Disallow: /*/webpack.stats.json
+Disallow: /*/chunk-map.json
+Disallow: /*/assets-manifest.json
+
+# Host directive
+Host: https://gaslow.mattianatali.it
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
