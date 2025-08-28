@@ -1,6 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
-import Img from "gatsby-image"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -27,13 +27,17 @@ const IndexPage = ({ data }) => {
   };
 
   const slideshow = configs.video_or_screenshot === "screenshot" ? <Slider {...slideshowSettings}>
-    {data.iphoneScreens.edges.map(e => (
-      <Img
-        key={e.node.id}
-        fluid={e.node.childImageSharp.fluid}
-        className="iphoneScreenSlideshow"
-      />
-    ))}
+    {data.iphoneScreens.edges.map(e => {
+      const image = getImage(e.node.childImageSharp.gatsbyImageData);
+      return (
+        <GatsbyImage
+          key={e.node.id}
+          image={image}
+          alt="Screenshot"
+          className="iphoneScreenSlideshow"
+        />
+      );
+    })}
   </Slider> : null;
 
   return (
@@ -45,7 +49,7 @@ const IndexPage = ({ data }) => {
         style={{
           backgroundImage: `linear-gradient(${configs.cover_overlay_color_rgba},${
             configs.cover_overlay_color_rgba
-            }),url(${data.headerImage.childImageSharp.fluid.src})`,
+            }),url(${data.headerImage.childImageSharp.gatsbyImageData.images.fallback.src})`,
         }}
       >
         <div className="headerBackground">
@@ -53,8 +57,9 @@ const IndexPage = ({ data }) => {
             <header>
               <div className="logo">
                 <div className="appIconShadow">
-                  <Img
-                    fluid={data.headerIcon.childImageSharp.fluid}
+                  <GatsbyImage
+                    image={getImage(data.headerIcon.childImageSharp.gatsbyImageData)}
+                    alt="App Icon"
                     className="headerIcon"
                   />
                 </div>
@@ -107,8 +112,9 @@ const IndexPage = ({ data }) => {
                     </clipPath>
                   </defs>
                 </svg>
-                <Img
-                  fluid={data.appIconLarge.childImageSharp.fluid}
+                <GatsbyImage
+                  image={getImage(data.appIconLarge.childImageSharp.gatsbyImageData)}
+                  alt="App Icon Large"
                   className="appIconLarge"
                 />
               </div>
@@ -122,16 +128,18 @@ const IndexPage = ({ data }) => {
               <div className="downloadButtonsContainer">
                 {configs.playstore_link && (
                   <a className="playStoreLink" href={configs.playstore_link}>
-                    <Img
-                      fixed={data.playStore.childImageSharp.fixed}
+                    <GatsbyImage
+                      image={getImage(data.playStore.childImageSharp.gatsbyImageData)}
+                      alt="Download from Google Play"
                       className="playStore"
                     />
                   </a>
                 )}
                 {configs.appstore_link && (
                   <a className="appStoreLink" href={configs.appstore_link}>
-                    <Img
-                      fixed={data.appStore.childImageSharp.fixed}
+                    <GatsbyImage
+                      image={getImage(data.appStore.childImageSharp.gatsbyImageData)}
+                      alt="Download from App Store"
                       className="appStore"
                     />
                   </a>
@@ -246,30 +254,22 @@ export const query = graphql`
   query {
     headerIcon: file(relativePath: { eq: "icon.png" }) {
       childImageSharp {
-        fluid(maxWidth: 50) {
-          ...GatsbyImageSharpFluid
-        }
+        gatsbyImageData(width: 50, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
       }
     }
     appStore: file(relativePath: { eq: "appstore.png" }) {
       childImageSharp {
-        fixed(width: 220) {
-          ...GatsbyImageSharpFixed
-        }
+        gatsbyImageData(width: 220, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
       }
     }
     playStore: file(relativePath: { eq: "playstore.png" }) {
       childImageSharp {
-        fixed(height: 75) {
-          ...GatsbyImageSharpFixed
-        }
+        gatsbyImageData(height: 75, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
       }
     }
     iphoneScreen: file(relativePath: { glob: "screenshot/*.{png,jpg}" }) {
       childImageSharp {
-        fluid(maxWidth: 350) {
-          ...GatsbyImageSharpFluid
-        }
+        gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF], layout: CONSTRAINED)
       }
     },
     iphoneScreens: allFile(filter: {relativePath: { glob: "screenshot/*.{png,jpg}" }}) {
@@ -277,9 +277,7 @@ export const query = graphql`
         node {
           id,
           childImageSharp {
-            fluid(maxWidth: 350){
-              ...GatsbyImageSharpFluid
-            }
+            gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF], layout: CONSTRAINED)
           }
         }
       }
@@ -293,51 +291,37 @@ export const query = graphql`
     }
     appIconLarge: file(relativePath: { eq: "icon.png" }) {
       childImageSharp {
-        fluid(maxWidth: 120) {
-          ...GatsbyImageSharpFluid
-        }
+        gatsbyImageData(width: 120, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
       }
     }
     headerImage: file(relativePath: { eq: "headerimage.jpg" }) {
       childImageSharp {
-        fluid(maxHeight: 714) {
-          ...GatsbyImageSharpFluid
-        }
+        gatsbyImageData(height: 714, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
       }
     }
     iphonePreviewBlack: file(relativePath: { eq: "black.png" }) {
       childImageSharp {
-        fluid(maxWidth: 400) {
-          ...GatsbyImageSharpFluid
-        }
+        gatsbyImageData(width: 400, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
       }
     }
     iphonePreviewBlue: file(relativePath: { eq: "blue.png" }) {
       childImageSharp {
-        fluid(maxWidth: 400) {
-          ...GatsbyImageSharpFluid
-        }
+        gatsbyImageData(width: 400, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
       }
     }
     iphonePreviewCoral: file(relativePath: { eq: "coral.png" }) {
       childImageSharp {
-        fluid(maxWidth: 400) {
-          ...GatsbyImageSharpFluid
-        }
+        gatsbyImageData(width: 400, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
       }
     }
     iphonePreviewWhite: file(relativePath: { eq: "white.png" }) {
       childImageSharp {
-        fluid(maxWidth: 400) {
-          ...GatsbyImageSharpFluid
-        }
+        gatsbyImageData(width: 400, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
       }
     }
     iphonePreviewYellow: file(relativePath: { eq: "yellow.png" }) {
       childImageSharp {
-        fluid(maxWidth: 400) {
-          ...GatsbyImageSharpFluid
-        }
+        gatsbyImageData(width: 400, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
       }
     }
   }

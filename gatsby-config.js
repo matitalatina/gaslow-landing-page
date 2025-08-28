@@ -1,4 +1,4 @@
-const urljoin = require("url-join")
+const urljoin = require("url-join").default || require("url-join")
 const configs = require("./site-config")
 
 module.exports = {
@@ -33,10 +33,15 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-google-analytics`,
+      resolve: `gatsby-plugin-google-gtag`,
       options: {
-        trackingId: configs.google_analytics_ID
-      }
+        trackingIds: [configs.google_analytics_ID],
+        pluginConfig: {
+          head: false,
+          respectDNT: true,
+          exclude: ["/preview/**", "/do-not-track/me/too/"],
+        },
+      },
     },
     `gatsby-plugin-styled-components`,
     `gatsby-plugin-offline`,
