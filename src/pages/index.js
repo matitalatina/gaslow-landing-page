@@ -42,11 +42,6 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO 
-        title={`${configs.app_name} - Migliori Prezzi Benzina e Diesel | App Gratuita`}
-        description={configs.app_description}
-        keywords={configs.app_keywords} 
-      />
 
       <div
         className="imageWrapper"
@@ -254,26 +249,34 @@ const IndexPage = ({ data }) => {
 
 export default IndexPage
 
+export const Head = () => {
+  return SEO({
+    title: `${configs.app_name} - Migliori Prezzi Benzina e Diesel | App Gratuita`,
+    description: configs.app_description,
+    keywords: configs.app_keywords
+  })
+}
+
 export const query = graphql`
   query {
     headerIcon: file(relativePath: { eq: "icon.png" }) {
       childImageSharp {
-        gatsbyImageData(width: 50, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(width: 50, formats: [AUTO, WEBP, AVIF], quality: 95)
       }
     }
     appStore: file(relativePath: { eq: "appstore.png" }) {
       childImageSharp {
-        gatsbyImageData(width: 220, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(width: 220, formats: [AUTO, WEBP, AVIF], quality: 95)
       }
     }
     playStore: file(relativePath: { eq: "playstore.png" }) {
       childImageSharp {
-        gatsbyImageData(height: 75, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(height: 75, formats: [AUTO, WEBP, AVIF], quality: 95)
       }
     }
     iphoneScreen: file(relativePath: { glob: "screenshot/*.{png,jpg}" }) {
       childImageSharp {
-        gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF], layout: CONSTRAINED)
+        gatsbyImageData(formats: [AUTO, WEBP, AVIF], layout: CONSTRAINED, quality: 95)
       }
     },
     iphoneScreens: allFile(filter: {relativePath: { glob: "screenshot/*.{png,jpg}" }}) {
@@ -281,7 +284,7 @@ export const query = graphql`
         node {
           id,
           childImageSharp {
-            gatsbyImageData(placeholder: BLURRED, formats: [AUTO, WEBP, AVIF], layout: CONSTRAINED)
+            gatsbyImageData(formats: [AUTO, WEBP, AVIF], layout: CONSTRAINED, quality: 95)
           }
         }
       }
@@ -295,37 +298,37 @@ export const query = graphql`
     }
     appIconLarge: file(relativePath: { eq: "icon.png" }) {
       childImageSharp {
-        gatsbyImageData(width: 120, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(width: 120, formats: [AUTO, WEBP, AVIF], quality: 95)
       }
     }
     headerImage: file(relativePath: { eq: "headerimage.jpg" }) {
       childImageSharp {
-        gatsbyImageData(height: 714, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(height: 714, formats: [AUTO, WEBP, AVIF], quality: 95)
       }
     }
     iphonePreviewBlack: file(relativePath: { eq: "black.png" }) {
       childImageSharp {
-        gatsbyImageData(width: 400, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(width: 400, formats: [AUTO, WEBP, AVIF], quality: 95)
       }
     }
     iphonePreviewBlue: file(relativePath: { eq: "blue.png" }) {
       childImageSharp {
-        gatsbyImageData(width: 400, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(width: 400, formats: [AUTO, WEBP, AVIF], quality: 95)
       }
     }
     iphonePreviewCoral: file(relativePath: { eq: "coral.png" }) {
       childImageSharp {
-        gatsbyImageData(width: 400, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(width: 400, formats: [AUTO, WEBP, AVIF], quality: 95)
       }
     }
     iphonePreviewWhite: file(relativePath: { eq: "white.png" }) {
       childImageSharp {
-        gatsbyImageData(width: 400, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(width: 400, formats: [AUTO, WEBP, AVIF], quality: 95)
       }
     }
     iphonePreviewYellow: file(relativePath: { eq: "yellow.png" }) {
       childImageSharp {
-        gatsbyImageData(width: 400, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF])
+        gatsbyImageData(width: 400, formats: [AUTO, WEBP, AVIF], quality: 95)
       }
     }
   }

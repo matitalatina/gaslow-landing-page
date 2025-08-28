@@ -7,11 +7,11 @@
 
 import React from "react"
 import PropTypes from "prop-types"
-import Helmet from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
+import { getSrc } from "gatsby-plugin-image"
 import urljoin from "url-join";
 
-function SEO({ description, lang, meta, keywords, title }) {
+function SEO({ description, lang = `it`, meta = [], keywords = [], title }) {
   const { seoImage, site } = useStaticQuery(
     graphql`
       query {
@@ -25,9 +25,7 @@ function SEO({ description, lang, meta, keywords, title }) {
         }
         seoImage: file(relativePath: { eq: "landing-cover.jpg" }) {
           childImageSharp {
-            fixed(width: 1600) {
-              ...GatsbyImageSharpFixed
-            }
+            gatsbyImageData(width: 1600, formats: [AUTO, WEBP, AVIF], quality: 95)
           }
         }
       }
@@ -35,109 +33,112 @@ function SEO({ description, lang, meta, keywords, title }) {
   )
 
   const metaDescription = description || site.siteMetadata.description;
-  const seoImageUrl = urljoin(site.siteMetadata.siteUrl, seoImage.childImageSharp.fixed.src);
+  const seoImageUrl = urljoin(site.siteMetadata.siteUrl, getSrc(seoImage.childImageSharp.gatsbyImageData));
+  
+  // Prepare meta tags array
+  const metaTags = [
+    {
+      name: 'google-site-verification',
+      content: 'ePMriV_-H2lldLkXE2ys9SWHsCYVxNO0z4DdGOn0il0',
+    },
+    {
+      name: `description`,
+      content: metaDescription,
+    },
+    {
+      property: `og:title`,
+      content: title,
+    },
+    {
+      property: `og:image`,
+      content: seoImageUrl,
+    },
+    {
+      property: `twitter:image`,
+      content: seoImageUrl,
+    },
+    {
+      property: `og:description`,
+      content: metaDescription,
+    },
+    {
+      property: `og:type`,
+      content: `website`,
+    },
+    {
+      name: `twitter:card`,
+      content: `summary`,
+    },
+    {
+      name: `twitter:creator`,
+      content: site.siteMetadata.author,
+    },
+    {
+      name: `twitter:title`,
+      content: title,
+    },
+    {
+      name: `twitter:description`,
+      content: metaDescription,
+    },
+    {
+      name: `twitter:image:alt`,
+      content: title,
+    },
+    {
+      property: `og:url`,
+      content: site.siteMetadata.siteUrl,
+    },
+    {
+      property: `og:site_name`,
+      content: site.siteMetadata.title,
+    },
+    {
+      property: `og:locale`,
+      content: `it_IT`,
+    },
+    {
+      name: `robots`,
+      content: `index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1`,
+    },
+    {
+      name: `googlebot`,
+      content: `index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1`,
+    },
+    {
+      name: `author`,
+      content: site.siteMetadata.author,
+    },
+    {
+      name: `theme-color`,
+      content: `#9c28b1`,
+    },
+    {
+      name: `apple-mobile-web-app-capable`,
+      content: `yes`,
+    },
+    {
+      name: `mobile-web-app-capable`,
+      content: `yes`,
+    },
+  ]
+    .concat(
+      keywords.length > 0
+        ? {
+            name: `keywords`,
+            content: keywords.join(`, `),
+          }
+        : []
+    )
+    .concat(meta);
+
   return (
-    <Helmet
-      htmlAttributes={{
-        lang,
-      }}
-      title={title}
-      titleTemplate={site.siteMetadata.title}
-      meta={[
-        {
-          name: 'google-site-verification',
-          content: 'ePMriV_-H2lldLkXE2ys9SWHsCYVxNO0z4DdGOn0il0',
-        },
-        {
-          name: `description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:title`,
-          content: title,
-        },
-        {
-          property: `og:image`,
-          content: seoImageUrl,
-        },
-        {
-          property: `twitter:image`,
-          content: seoImageUrl,
-        },
-        {
-          property: `og:description`,
-          content: metaDescription,
-        },
-        {
-          property: `og:type`,
-          content: `website`,
-        },
-        {
-          name: `twitter:card`,
-          content: `summary`,
-        },
-        {
-          name: `twitter:creator`,
-          content: site.siteMetadata.author,
-        },
-        {
-          name: `twitter:title`,
-          content: title,
-        },
-        {
-          name: `twitter:description`,
-          content: metaDescription,
-        },
-        {
-          name: `twitter:image:alt`,
-          content: title,
-        },
-        {
-          property: `og:url`,
-          content: site.siteMetadata.siteUrl,
-        },
-        {
-          property: `og:site_name`,
-          content: site.siteMetadata.title,
-        },
-        {
-          property: `og:locale`,
-          content: `it_IT`,
-        },
-        {
-          name: `robots`,
-          content: `index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1`,
-        },
-        {
-          name: `googlebot`,
-          content: `index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1`,
-        },
-        {
-          name: `author`,
-          content: site.siteMetadata.author,
-        },
-        {
-          name: `theme-color`,
-          content: `#9c28b1`,
-        },
-        {
-          name: `apple-mobile-web-app-capable`,
-          content: `yes`,
-        },
-        {
-          name: `mobile-web-app-capable`,
-          content: `yes`,
-        },
-      ]
-        .concat(
-          keywords.length > 0
-            ? {
-                name: `keywords`,
-                content: keywords.join(`, `),
-              }
-            : []
-        )
-        .concat(meta)}>
+    <>
+      <html lang={lang} />
+      <title>{title} | {site.siteMetadata.title}</title>
+      {metaTags.map((tag, index) => (
+        <meta key={index} {...tag} />
+      ))}
       <script type="application/ld+json">
         {JSON.stringify({
           "@context": "https://schema.org",
@@ -217,15 +218,11 @@ function SEO({ description, lang, meta, keywords, title }) {
           ]
         })}
       </script>
-    </Helmet>
+    </>
   )
 }
 
-SEO.defaultProps = {
-  lang: `it`,
-  meta: [],
-  keywords: [],
-}
+
 
 SEO.propTypes = {
   description: PropTypes.string,
